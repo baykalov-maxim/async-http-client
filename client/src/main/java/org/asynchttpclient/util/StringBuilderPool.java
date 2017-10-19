@@ -16,7 +16,13 @@ public class StringBuilderPool {
 
     public static final StringBuilderPool DEFAULT = new StringBuilderPool();
 
-    private final ThreadLocal<StringBuilder> pool = ThreadLocal.withInitial(() -> new StringBuilder(512));
+    //private final ThreadLocal<StringBuilder> pool = ThreadLocal.withInitial(() -> new StringBuilder(512));
+    private final ThreadLocal<StringBuilder> pool = new ThreadLocal<StringBuilder>() {
+      @Override protected StringBuilder initialValue() {
+          return new StringBuilder(512);
+      }
+  };
+    
 
     /**
      * BEWARE: MUSN'T APPEND TO ITSELF!
