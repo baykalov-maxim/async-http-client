@@ -81,6 +81,9 @@ public class NettyChannelConnector {
     }
 
     private void connect0(Bootstrap bootstrap, final NettyConnectListener<?> connectListener, InetSocketAddress remoteAddress) {
+    	
+    	final Bootstrap b = bootstrap;
+    	final InetSocketAddress r = remoteAddress;
 
         bootstrap.connect(remoteAddress, localAddress)//
                 .addListener(new SimpleChannelFutureListener() {
@@ -88,21 +91,21 @@ public class NettyChannelConnector {
                     public void onSuccess(Channel channel) {
                         if (asyncHandlerExtensions != null) {
                             try {
-                                asyncHandlerExtensions.onTcpConnectSuccess(remoteAddress, channel);
+                                asyncHandlerExtensions.onTcpConnectSuccess(r, channel);
                             } catch (Exception e) {
                                 LOGGER.error("onTcpConnectSuccess crashed", e);
                                 connectListener.onFailure(channel, e);
                                 return;
                             }
                         }
-                        connectListener.onSuccess(channel, remoteAddress);
+                        connectListener.onSuccess(channel, r);
                     }
 
                     @Override
                     public void onFailure(Channel channel, Throwable t) {
                         if (asyncHandlerExtensions != null) {
                             try {
-                                asyncHandlerExtensions.onTcpConnectFailure(remoteAddress, t);
+                                asyncHandlerExtensions.onTcpConnectFailure(r, t);
                             } catch (Exception e) {
                                 LOGGER.error("onTcpConnectFailure crashed", e);
                                 connectListener.onFailure(channel, e);
@@ -111,7 +114,7 @@ public class NettyChannelConnector {
                         }
                         boolean retry = pickNextRemoteAddress();
                         if (retry) {
-                            NettyChannelConnector.this.connect(bootstrap, connectListener);
+                            NettyChannelConnector.this.connect(b, connectListener);
                         } else {
                             connectListener.onFailure(channel, t);
                         }

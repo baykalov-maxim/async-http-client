@@ -38,6 +38,8 @@ import io.netty.handler.ssl.SslHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.util.Timer;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetSocketAddress;
@@ -307,7 +309,14 @@ public class ChannelManager {
     public void close() {
         if (allowReleaseEventLoopGroup) {
             eventLoopGroup.shutdownGracefully(config.getShutdownQuietPeriod(), config.getShutdownTimeout(), TimeUnit.MILLISECONDS)//
-                    .addListener(future -> doClose());
+                    //.addListener(future -> doClose());
+            .addListener(new GenericFutureListener<Future<? super Object>>() {
+				@Override
+				public void operationComplete(Future<? super Object> future) throws Exception {
+					doClose();					
+				}
+			});
+            
         } else {
             doClose();
         }

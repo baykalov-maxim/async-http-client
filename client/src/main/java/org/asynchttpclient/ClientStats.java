@@ -16,6 +16,7 @@ package org.asynchttpclient;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.ToLongFunction;
 
 /**
  * A record class representing the state of an (@link org.asynchttpclient.AsyncHttpClient).
@@ -44,7 +45,13 @@ public class ClientStats {
         return statsPerHost
                 .values()
                 .stream()
-                .mapToLong(HostStats::getHostConnectionCount)
+                //.mapToLong(HostStats::getHostConnectionCount)
+                .mapToLong(new ToLongFunction<HostStats>() {
+					@Override
+					public long applyAsLong(HostStats hS) {
+						return hS.getHostConnectionCount();
+					}
+				})
                 .sum();
     }
 
@@ -55,7 +62,13 @@ public class ClientStats {
         return statsPerHost
                 .values()
                 .stream()
-                .mapToLong(HostStats::getHostActiveConnectionCount)
+                //.mapToLong(HostStats::getHostActiveConnectionCount)
+                .mapToLong(new ToLongFunction<HostStats>() {
+					@Override
+					public long applyAsLong(HostStats hS) {
+						return hS.getHostActiveConnectionCount();
+					}
+				})
                 .sum();
     }
 
@@ -66,7 +79,13 @@ public class ClientStats {
         return statsPerHost
                 .values()
                 .stream()
-                .mapToLong(HostStats::getHostIdleConnectionCount)
+                //.mapToLong(HostStats::getHostActiveConnectionCount)
+                .mapToLong(new ToLongFunction<HostStats>() {
+					@Override
+					public long applyAsLong(HostStats hS) {
+						return hS.getHostIdleConnectionCount();
+					}
+				})
                 .sum();
     }
 

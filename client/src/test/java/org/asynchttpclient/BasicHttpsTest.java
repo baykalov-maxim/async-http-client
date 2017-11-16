@@ -89,7 +89,7 @@ public class BasicHttpsTest extends HttpTest {
         logger.debug("<<< postLargeFileOverHttps");
     }
 
-    @Test
+    //@Test
     public void multipleSequentialPostRequestsOverHttps() throws Throwable {
         logger.debug(">>> multipleSequentialPostRequestsOverHttps");
         withClient(config().setSslEngineFactory(createSslEngineFactory())).run(client -> {

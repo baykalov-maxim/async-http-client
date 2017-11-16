@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+import java.util.function.BiConsumer;
 
 import org.asynchttpclient.AsyncHandler;
 import org.asynchttpclient.ListenableFuture;
@@ -292,11 +293,28 @@ public final class NettyResponseFuture<V> implements ListenableFuture<V> {
 
     @Override
     public ListenableFuture<V> addListener(Runnable listener, Executor exec) {
-        if (exec == null) {
-            exec = Runnable::run;
-        }
-        future.whenCompleteAsync((r, v) -> listener.run(), exec);
-        return this;
+//        if (exec == null) {
+//            exec = Runnable::run;
+//        }
+//        future.whenCompleteAsync((r, v) -> listener.run(), exec);
+//        return this;
+    	
+    	final Runnable l = listener;
+    	if (exec == null) {
+    		exec = new Executor() {
+				@Override
+				public void execute(Runnable command) {
+					command.run();
+				}
+			};
+  		}
+    	future.whenCompleteAsync(new BiConsumer<V, Throwable>() {
+			@Override
+			public void accept(V r, Throwable v) {				
+				l.run();
+			}
+		}, exec);
+    	return this;
     }
 
     @Override

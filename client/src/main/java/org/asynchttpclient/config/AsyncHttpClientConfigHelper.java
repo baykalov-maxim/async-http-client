@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 public class AsyncHttpClientConfigHelper {
 
@@ -82,14 +83,17 @@ public class AsyncHttpClientConfigHelper {
         }
 
         public String getString(String key) {
-            return propsCache.computeIfAbsent(key, k -> {
-                String value = System.getProperty(k);
-                if (value == null)
-                    value = customProperties.getProperty(k);
-                if (value == null)
-                    value = defaultProperties.getProperty(k);
-                return value;
-            });
+            return propsCache.computeIfAbsent(key, new Function<String, String>() {
+				@Override
+				public String apply(String k) {
+				    String value = System.getProperty(k);
+				    if (value == null)
+				        value = customProperties.getProperty(k);
+				    if (value == null)
+				        value = defaultProperties.getProperty(k);
+				    return value;
+				}
+			});
         }
 
         public String[] getStringArray(String key) {

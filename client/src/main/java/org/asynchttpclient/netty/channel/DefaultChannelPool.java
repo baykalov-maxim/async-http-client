@@ -82,7 +82,10 @@ public final class DefaultChannelPool implements ChannelPool {
         this.maxIdleTime = maxIdleTime;
         this.connectionTtl = connectionTtl;
         connectionTtlEnabled = connectionTtl > 0;
-        channelId2Creation = connectionTtlEnabled ? new ConcurrentHashMap<>() : null;
+        if (connectionTtlEnabled)
+			channelId2Creation = new ConcurrentHashMap<>();
+		else
+			channelId2Creation = null;
         this.nettyTimer = nettyTimer;
         maxIdleTimeEnabled = maxIdleTime > 0;
         this.poolLeaseStrategy = poolLeaseStrategy;
@@ -275,7 +278,12 @@ public final class DefaultChannelPool implements ChannelPool {
     private boolean offer0(Channel channel, Object partitionKey, long now) {
         ConcurrentLinkedDeque<IdleChannel> partition = partitions.get(partitionKey);
         if (partition == null) {
-            partition = partitions.computeIfAbsent(partitionKey, pk -> new ConcurrentLinkedDeque<>());
+            partition = partitions.computeIfAbsent(partitionKey, new Function<Object, ConcurrentLinkedDeque<IdleChannel>>() {
+				@Override
+				public ConcurrentLinkedDeque<IdleChannel> apply(Object pk) {
+					return new ConcurrentLinkedDeque<>();
+				}
+			});
         }
         return partition.offerFirst(new IdleChannel(channel, now));
     }
