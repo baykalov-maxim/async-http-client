@@ -41,4 +41,9 @@ public class NettyCompositeByteArrayBody extends NettyDirectBody {
     public ByteBuf byteBuf() {
         return Unpooled.wrappedBuffer(bytes);
     }
+
+	@Override
+	public CharSequence getContentTypeOverride() {
+		return null;
+	}
 }

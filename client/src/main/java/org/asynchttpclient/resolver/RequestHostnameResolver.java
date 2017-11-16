@@ -52,15 +52,17 @@ public enum RequestHostnameResolver {
 
         whenResolved.addListener(new SimpleFutureListener<List<InetAddress>>() {
 
+        	final AsyncHandlerExtensions a = asyncHandlerExtensions;
+        	
             @Override
             protected void onSuccess(List<InetAddress> value) throws Exception {
                 ArrayList<InetSocketAddress> socketAddresses = new ArrayList<>(value.size());
                 for (InetAddress a : value) {
                     socketAddresses.add(new InetSocketAddress(a, port));
                 }
-                if (asyncHandlerExtensions != null) {
+                if (a != null) {
                     try {
-                        asyncHandlerExtensions.onHostnameResolutionSuccess(hostname, socketAddresses);
+                        a.onHostnameResolutionSuccess(hostname, socketAddresses);
                     } catch (Exception e) {
                         LOGGER.error("onHostnameResolutionSuccess crashed", e);
                         promise.tryFailure(e);
@@ -72,9 +74,9 @@ public enum RequestHostnameResolver {
 
             @Override
             protected void onFailure(Throwable t) throws Exception {
-                if (asyncHandlerExtensions != null) {
+                if (a != null) {
                     try {
-                        asyncHandlerExtensions.onHostnameResolutionFailure(hostname, t);
+                        a.onHostnameResolutionFailure(hostname, t);
                     } catch (Exception e) {
                         LOGGER.error("onHostnameResolutionFailure crashed", e);
                         promise.tryFailure(e);

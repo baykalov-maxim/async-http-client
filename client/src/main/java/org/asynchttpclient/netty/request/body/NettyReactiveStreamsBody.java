@@ -124,4 +124,9 @@ public class NettyReactiveStreamsBody implements NettyBody {
             }
         }
     }
+
+	@Override
+	public CharSequence getContentTypeOverride() {
+		return null;
+	}
 }

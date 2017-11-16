@@ -74,4 +74,9 @@ public class NettyFileBody implements NettyBody {
                 .addListener(new WriteProgressListener(future, false, length));
         channel.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT, channel.voidPromise());
     }
+
+	@Override
+	public CharSequence getContentTypeOverride() {
+		return null;
+	}
 }

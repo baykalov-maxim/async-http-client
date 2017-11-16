@@ -88,16 +88,19 @@ public final class NettyConnectListener<T> {
     }
 
     public void onSuccess(Channel channel, InetSocketAddress remoteAddress) {
+    	
+    	final Channel c = channel;
 
         if (connectionSemaphore != null) {
             // transfer lock from future to channel
             Object partitionKeyLock = future.takePartitionKeyLock();
+            final Object p = partitionKeyLock; 
 
             if (partitionKeyLock != null) {
                 channel.closeFuture().addListener(new GenericFutureListener<Future<? super Void>>() {
                     @Override
                     public void operationComplete(Future<? super Void> future) throws Exception {
-                        connectionSemaphore.releaseChannelLock(partitionKeyLock);
+                        connectionSemaphore.releaseChannelLock(p);
                     }
                 });
             }
@@ -146,11 +149,11 @@ public final class NettyConnectListener<T> {
                             asyncHandlerExtensions.onTlsHandshakeSuccess();
                         } catch (Exception e) {
                             LOGGER.error("onTlsHandshakeSuccess crashed", e);
-                            NettyConnectListener.this.onFailure(channel, e);
+                            NettyConnectListener.this.onFailure(c, e);
                             return;
                         }
                     }
-                    writeRequest(channel);
+                    writeRequest(c);
                 }
 
                 @Override
@@ -160,16 +163,16 @@ public final class NettyConnectListener<T> {
                             asyncHandlerExtensions.onTlsHandshakeFailure(cause);
                         } catch (Exception e) {
                             LOGGER.error("onTlsHandshakeFailure crashed", e);
-                            NettyConnectListener.this.onFailure(channel, e);
+                            NettyConnectListener.this.onFailure(c, e);
                             return;
                         }
                     }
-                    NettyConnectListener.this.onFailure(channel, cause);
+                    NettyConnectListener.this.onFailure(c, cause);
                 }
             });
 
         } else {
-            writeRequest(channel);
+            writeRequest(c);
         }
     }
 

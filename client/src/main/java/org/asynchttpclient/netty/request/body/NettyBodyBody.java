@@ -86,4 +86,9 @@ public class NettyBodyBody implements NettyBody {
                 });
         channel.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT, channel.voidPromise());
     }
+
+	@Override
+	public CharSequence getContentTypeOverride() {
+		return null;
+	}
 }
