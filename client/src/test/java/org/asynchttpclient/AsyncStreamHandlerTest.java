@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.asynchttpclient.AsyncHandler.State;
 import org.asynchttpclient.test.TestUtils.AsyncHandlerAdapter;
 import org.asynchttpclient.testserver.HttpServer;
 import org.asynchttpclient.testserver.HttpTest;
@@ -392,6 +393,11 @@ public class AsyncStreamHandlerTest extends HttpTest {
                         latch.countDown();
                         return status;
                     }
+
+					@Override
+					public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+				        return State.CONTINUE;
+				    }
                 });
 
                 if (!latch.await(2, TimeUnit.SECONDS)) {
@@ -482,6 +488,11 @@ public class AsyncStreamHandlerTest extends HttpTest {
                     public Response onCompleted() throws Exception {
                         return builder.build();
                     }
+
+					@Override
+					public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+				        return State.CONTINUE;
+				    }
                 }).get();
 
                 assertNotNull(r);

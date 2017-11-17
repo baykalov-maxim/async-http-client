@@ -54,6 +54,24 @@ public class ByteMessageTest extends AbstractBasicWebSocketTest {
                     text.set(frame);
                     latch.countDown();
                 }
+
+				@Override
+				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPingFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPongFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
             }).build()).get();
 
             websocket.sendBinaryFrame(ECHO_BYTES);
@@ -98,6 +116,24 @@ public class ByteMessageTest extends AbstractBasicWebSocketTest {
                     }
                     latch.countDown();
                 }
+
+				@Override
+				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPingFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPongFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
 
             }).build()).get();
 
@@ -147,6 +183,24 @@ public class ByteMessageTest extends AbstractBasicWebSocketTest {
                     latch.countDown();
                 }
 
+				@Override
+				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPingFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPongFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
             }).build()).get();
 
             latch.await();
@@ -188,6 +242,24 @@ public class ByteMessageTest extends AbstractBasicWebSocketTest {
                     }
                     latch.countDown();
                 }
+
+				@Override
+				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPingFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPongFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
 
             }).build()).get();
             websocket.sendBinaryFrame(ECHO_BYTES, false, 0);

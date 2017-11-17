@@ -49,8 +49,9 @@ public interface WebSocketListener {
      * @param finalFragment true if this frame is the final fragment
      * @param rsv extension bits
      */
-    default void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-    };
+    void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv); 
+//    {
+//    }
 
     /**
      * Invoked when a text frame is received.
@@ -59,22 +60,25 @@ public interface WebSocketListener {
      * @param finalFragment true if this frame is the final fragment
      * @param rsv extension bits
      */
-    default void onTextFrame(String payload, boolean finalFragment, int rsv) {
-    };
+    void onTextFrame(String payload, boolean finalFragment, int rsv);
+//    {
+//    }
 
     /**
      * Invoked when a ping frame is received
      * 
      * @param payload a byte array
      */
-    default void onPingFrame(byte[] payload) {
-    };
+    void onPingFrame(byte[] payload);
+//    {
+//    }
 
     /**
      * Invoked when a pong frame is received
      * 
      * @param payload a byte array
      */
-    default void onPongFrame(byte[] payload) {
-    };
+    void onPongFrame(byte[] payload);
+//    {
+//    }
 }

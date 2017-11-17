@@ -21,6 +21,7 @@ import java.util.List;
 import org.asynchttpclient.AsyncHandler;
 import org.asynchttpclient.HttpResponseBodyPart;
 import org.asynchttpclient.HttpResponseStatus;
+import org.asynchttpclient.AsyncHandler.State;
 import org.asynchttpclient.netty.ws.NettyWebSocket;
 
 /**
@@ -131,5 +132,10 @@ public class WebSocketUpgradeHandler implements AsyncHandler<NettyWebSocket> {
         public WebSocketUpgradeHandler build() {
             return new WebSocketUpgradeHandler(listeners);
         }
+    }
+
+	@Override
+	public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+        return State.CONTINUE;
     }
 }

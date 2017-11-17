@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 
+import org.asynchttpclient.AsyncHandler.State;
 import org.testng.annotations.Test;
 
 /**
@@ -73,6 +74,11 @@ public class FollowingThreadTest extends AbstractBasicTest {
                                     l.countDown();
                                     return status;
                                 }
+
+								@Override
+								public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+							        return State.CONTINUE;
+							    }
                             });
 
                             l.await();

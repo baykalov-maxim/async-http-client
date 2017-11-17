@@ -36,7 +36,8 @@ public interface SslEngineFactory {
      * @throws SSLException if initialization fails. If an exception is thrown, the instance will not be used as client
      *                      creation will fail.
      */
-    default void init(AsyncHttpClientConfig config) throws SSLException {
-        // no op
-    }
+    void init(AsyncHttpClientConfig config) throws SSLException;
+//    {
+//    	
+//    }
 }

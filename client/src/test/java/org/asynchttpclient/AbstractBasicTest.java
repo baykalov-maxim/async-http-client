@@ -19,6 +19,7 @@ import static org.asynchttpclient.test.TestUtils.addHttpConnector;
 import static org.testng.Assert.fail;
 import io.netty.handler.codec.http.HttpHeaders;
 
+import org.asynchttpclient.AsyncHandler.State;
 import org.asynchttpclient.test.EchoHandler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -111,5 +112,10 @@ public abstract class AbstractBasicTest {
         public String onCompleted() throws Exception {
             return "";
         }
+
+		@Override
+		public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+	        return State.CONTINUE;
+	    }
     }
 }

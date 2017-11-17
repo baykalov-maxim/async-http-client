@@ -31,10 +31,13 @@ import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Request;
 import org.asynchttpclient.RequestBuilder;
 import org.asynchttpclient.Response;
+import org.asynchttpclient.AsyncHandler.State;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import io.netty.handler.codec.http.HttpHeaders;
 
 public class WebdavTest {
 
@@ -180,6 +183,11 @@ public class WebdavTest {
                 public WebDavResponse onCompleted(WebDavResponse response) throws Exception {
                     return response;
                 }
+
+				@Override
+				public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+			        return State.CONTINUE;
+			    }
             }).get();
 
             assertEquals(webDavResponse.getStatusCode(), 207);

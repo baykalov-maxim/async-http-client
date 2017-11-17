@@ -35,6 +35,7 @@ import java.util.concurrent.TimeoutException;
 
 import javax.net.ServerSocketFactory;
 
+import org.asynchttpclient.AsyncHandler.State;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -121,6 +122,11 @@ public class MultipleHeaderTest extends AbstractBasicTest {
                 public Void onCompleted() throws Exception {
                     return null;
                 }
+
+				@Override
+				public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+			        return State.CONTINUE;
+			    }
             }).get(3, TimeUnit.SECONDS);
 
             if (!latch.await(2, TimeUnit.SECONDS)) {
@@ -173,6 +179,11 @@ public class MultipleHeaderTest extends AbstractBasicTest {
                 public Void onCompleted() throws Exception {
                     return null;
                 }
+
+				@Override
+				public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+			        return State.CONTINUE;
+			    }
             }).get(3, TimeUnit.SECONDS);
 
             if (!latch.await(2, TimeUnit.SECONDS)) {

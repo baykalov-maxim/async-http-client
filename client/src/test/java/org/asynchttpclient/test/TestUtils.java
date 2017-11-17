@@ -59,6 +59,7 @@ import org.asynchttpclient.HttpResponseBodyPart;
 import org.asynchttpclient.HttpResponseStatus;
 import org.asynchttpclient.Response;
 import org.asynchttpclient.SslEngineFactory;
+import org.asynchttpclient.AsyncHandler.State;
 import org.asynchttpclient.netty.ssl.JsseSslEngineFactory;
 import org.asynchttpclient.util.Base64;
 import org.eclipse.jetty.security.ConstraintMapping;
@@ -356,6 +357,11 @@ public class TestUtils {
         public String onCompleted() throws Exception {
             return "";
         }
+
+		@Override
+		public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+	        return State.CONTINUE;
+	    }
     }
 
     public static void writeResponseBody(HttpServletResponse response, String body) {

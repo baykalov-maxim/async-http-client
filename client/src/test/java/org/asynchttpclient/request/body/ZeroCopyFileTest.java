@@ -39,6 +39,7 @@ import org.asynchttpclient.BasicHttpsTest;
 import org.asynchttpclient.HttpResponseBodyPart;
 import org.asynchttpclient.HttpResponseStatus;
 import org.asynchttpclient.Response;
+import org.asynchttpclient.AsyncHandler.State;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.testng.annotations.Test;
@@ -139,6 +140,11 @@ public class ZeroCopyFileTest extends AbstractBasicTest {
                     public Response onCompleted() throws Exception {
                         return null;
                     }
+
+					@Override
+					public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+				        return State.CONTINUE;
+				    }
                 }).get();
                 assertNull(resp);
                 assertEquals(SIMPLE_TEXT_FILE.length(), tmp.length());
@@ -177,6 +183,11 @@ public class ZeroCopyFileTest extends AbstractBasicTest {
                     public Response onCompleted() throws Exception {
                         return null;
                     }
+
+					@Override
+					public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+				        return State.CONTINUE;
+				    }
                 }).get();
                 assertNull(resp);
                 assertEquals(SIMPLE_TEXT_FILE.length(), tmp.length());

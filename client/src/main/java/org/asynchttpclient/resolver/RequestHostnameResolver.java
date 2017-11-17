@@ -49,10 +49,11 @@ public enum RequestHostnameResolver {
         }
 
         final Future<List<InetAddress>> whenResolved = nameResolver.resolveAll(hostname);
-
+        final AsyncHandlerExtensions a1 = asyncHandlerExtensions;
+        
         whenResolved.addListener(new SimpleFutureListener<List<InetAddress>>() {
 
-        	final AsyncHandlerExtensions a = asyncHandlerExtensions;
+        	final AsyncHandlerExtensions a = a1;
         	
             @Override
             protected void onSuccess(List<InetAddress> value) throws Exception {

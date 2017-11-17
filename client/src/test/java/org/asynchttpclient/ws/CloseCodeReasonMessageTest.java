@@ -78,6 +78,30 @@ public class CloseCodeReasonMessageTest extends AbstractBasicWebSocketTest {
             t.printStackTrace();
             latch.countDown();
         }
+
+		@Override
+		public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onPingFrame(byte[] payload) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onPongFrame(byte[] payload) {
+			// TODO Auto-generated method stub
+			
+		}
     }
 
     @Test(groups = "online", timeOut = 60000, expectedExceptions = ExecutionException.class)
@@ -98,6 +122,30 @@ public class CloseCodeReasonMessageTest extends AbstractBasicWebSocketTest {
                 public void onError(Throwable t) {
                     latch.countDown();
                 }
+
+				@Override
+				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPingFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPongFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
             }).build()).get();
         }
 
@@ -125,6 +173,30 @@ public class CloseCodeReasonMessageTest extends AbstractBasicWebSocketTest {
                     throwable.set(t);
                     latch.countDown();
                 }
+
+				@Override
+				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPingFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPongFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
             }).build());
 
             latch.await();
@@ -154,6 +226,30 @@ public class CloseCodeReasonMessageTest extends AbstractBasicWebSocketTest {
                     throwable.set(t);
                     latch.countDown();
                 }
+
+				@Override
+				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPingFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onPongFrame(byte[] payload) {
+					// TODO Auto-generated method stub
+					
+				}
             }).build());
 
             latch.await();

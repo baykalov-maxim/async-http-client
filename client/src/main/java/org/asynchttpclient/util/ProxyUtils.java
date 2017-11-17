@@ -123,8 +123,13 @@ public final class ProxyUtils {
                 proxyServer.setNonProxyHosts(new ArrayList<>(Arrays.asList(nonProxyHosts.split("\\|"))));
             }
 
-            ProxyServer proxy = proxyServer.build();
-            return uri -> proxy;
+            final ProxyServer proxy = proxyServer.build();
+            return new ProxyServerSelector() {
+				@Override
+				public ProxyServer select(Uri uri) {
+					return proxy;
+				}
+			};
         }
 
         return ProxyServerSelector.NO_PROXY_SELECTOR;

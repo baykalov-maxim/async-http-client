@@ -33,6 +33,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.asynchttpclient.AsyncHandler.State;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.testng.annotations.AfterClass;
@@ -132,6 +133,11 @@ public class AsyncStreamLifecycleTest extends AbstractBasicTest {
                     latch.countDown();
                     return null;
                 }
+
+				@Override
+				public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+			        return State.CONTINUE;
+			    }
             });
             assertTrue(latch.await(1, TimeUnit.SECONDS), "Latch failed.");
             assertFalse(err.get());

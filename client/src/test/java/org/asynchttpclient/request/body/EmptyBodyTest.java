@@ -37,6 +37,7 @@ import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.HttpResponseBodyPart;
 import org.asynchttpclient.HttpResponseStatus;
 import org.asynchttpclient.Response;
+import org.asynchttpclient.AsyncHandler.State;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.testng.annotations.Test;
@@ -106,6 +107,11 @@ public class EmptyBodyTest extends AbstractBasicTest {
                     latch.countDown();
                     return null;
                 }
+
+				@Override
+				public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+			        return State.CONTINUE;
+			    }
             });
             try {
                 assertTrue(latch.await(1, TimeUnit.SECONDS), "Latch failed.");

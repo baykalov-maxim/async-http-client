@@ -36,6 +36,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import org.asynchttpclient.channel.ChannelPoolPartitioning;
 import org.asynchttpclient.proxy.ProxyServer;
@@ -274,7 +275,12 @@ public abstract class RequestBuilderBase<T extends RequestBuilderBase<T>> {
     public T setHeaders(Map<CharSequence, ? extends Iterable<?>> headers) {
         clearHeaders();
         if (headers != null) {
-            headers.forEach((name, values) -> this.headers.add(name, values));
+            headers.forEach(new BiConsumer<CharSequence, Iterable>() {
+				@Override
+				public void accept(CharSequence name, Iterable values) {
+					RequestBuilderBase.this.headers.add(name, values);
+				}
+			});
         }
         return asDerivedType();
     }
@@ -289,7 +295,12 @@ public abstract class RequestBuilderBase<T extends RequestBuilderBase<T>> {
     public T setSingleHeaders(Map<CharSequence, ?> headers) {
         clearHeaders();
         if (headers != null) {
-            headers.forEach((name, value) -> this.headers.add(name, value));
+            headers.forEach(new BiConsumer<CharSequence, Object>() {
+				@Override
+				public void accept(CharSequence name, Object value) {
+					RequestBuilderBase.this.headers.add(name, value);
+				}
+			});
         }
         return asDerivedType();
     }
@@ -624,9 +635,21 @@ public abstract class RequestBuilderBase<T extends RequestBuilderBase<T>> {
         Charset finalCharset = rb.computeCharset();
 
         // make copies of mutable internal collections
-        List<Cookie> cookiesCopy = rb.cookies == null ? Collections.emptyList() : new ArrayList<>(rb.cookies);
-        List<Param> formParamsCopy = rb.formParams == null ? Collections.emptyList() : new ArrayList<>(rb.formParams);
-        List<Part> bodyPartsCopy = rb.bodyParts == null ? Collections.emptyList() : new ArrayList<>(rb.bodyParts);
+        List<Cookie> cookiesCopy;
+		if (rb.cookies == null)
+			cookiesCopy = Collections.emptyList();
+		else
+			cookiesCopy = new ArrayList<>(rb.cookies);
+        List<Param> formParamsCopy;
+		if (rb.formParams == null)
+			formParamsCopy = Collections.emptyList();
+		else
+			formParamsCopy = new ArrayList<>(rb.formParams);
+        List<Part> bodyPartsCopy;
+		if (rb.bodyParts == null)
+			bodyPartsCopy = Collections.emptyList();
+		else
+			bodyPartsCopy = new ArrayList<>(rb.bodyParts);
 
         return new DefaultRequest(rb.method,//
                 finalUri,//

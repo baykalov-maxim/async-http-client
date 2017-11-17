@@ -40,6 +40,7 @@ import org.asynchttpclient.filter.RequestFilter;
 import org.asynchttpclient.filter.ResponseFilter;
 import org.asynchttpclient.proxy.ProxyServer;
 import org.asynchttpclient.proxy.ProxyServerSelector;
+import org.asynchttpclient.uri.Uri;
 import org.asynchttpclient.util.ProxyUtils;
 
 /**
@@ -857,7 +858,13 @@ public class DefaultAsyncHttpClientConfig implements AsyncHttpClientConfig {
         }
 
         public Builder setProxyServer(ProxyServer proxyServer) {
-            this.proxyServerSelector = uri -> proxyServer;
+        	final ProxyServer p = proxyServer;
+            this.proxyServerSelector = new ProxyServerSelector() {
+				@Override
+				public ProxyServer select(Uri uri) {
+					return p;
+				}
+			};
             return this;
         }
 

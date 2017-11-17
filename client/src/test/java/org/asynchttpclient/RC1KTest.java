@@ -32,6 +32,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.asynchttpclient.AsyncHandler.State;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -136,5 +137,10 @@ public class RC1KTest extends AbstractBasicTest {
         public Integer onCompleted() throws Exception {
             return result.get();
         }
+
+		@Override
+		public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+	        return State.CONTINUE;
+	    }
     }
 }

@@ -17,6 +17,8 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.DefaultHttpContent;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
@@ -104,7 +106,18 @@ public class NettyReactiveStreamsBody implements NettyBody {
 
         @Override
         protected void complete() {
-            channel.eventLoop().execute(() -> channel.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT).addListener(future -> removeFromPipeline()));
+        	final Channel c = channel;
+            c.eventLoop().execute(new Runnable() {
+				@Override
+				public void run() {
+					channel.writeAndFlush(LastHttpContent.EMPTY_LAST_CONTENT).addListener(new GenericFutureListener<Future<? super Void>>() {
+						@Override
+						public void operationComplete(Future<? super Void> f) throws Exception {
+							removeFromPipeline();
+						}
+					});
+				}
+			});
         }
 
         @Override

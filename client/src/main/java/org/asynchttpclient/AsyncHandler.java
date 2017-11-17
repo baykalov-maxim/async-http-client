@@ -106,9 +106,10 @@ public interface AsyncHandler<T> {
      * @return a {@link State} telling to CONTINUE or ABORT the current processing.
      * @throws Exception if something wrong happens
      */
-    default State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
-        return State.CONTINUE;
-    }
+    State onTrailingHeadersReceived(HttpHeaders headers) throws Exception;
+//    {
+//        return State.CONTINUE;
+//    }
 
     /**
      * Invoked once the HTTP response processing is finished.

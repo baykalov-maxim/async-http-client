@@ -15,6 +15,7 @@ package org.asynchttpclient.netty.ssl;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLException;
 
 import org.asynchttpclient.AsyncHttpClientConfig;
 
@@ -32,4 +33,7 @@ public class JsseSslEngineFactory extends SslEngineFactoryBase {
         configureSslEngine(sslEngine, config);
         return sslEngine;
     }
+
+	@Override
+	public void init(AsyncHttpClientConfig config) throws SSLException {}
 }

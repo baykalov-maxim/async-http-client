@@ -28,6 +28,7 @@ import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.HttpResponseBodyPart;
 import org.asynchttpclient.HttpResponseStatus;
 import org.asynchttpclient.ListenableFuture;
+import org.asynchttpclient.AsyncHandler.State;
 import org.asynchttpclient.handler.StreamedAsyncHandler;
 import org.asynchttpclient.test.TestUtils;
 import org.reactivestreams.Publisher;
@@ -133,6 +134,11 @@ public class ReactiveStreamsDownLoadTest {
             }
             return bytes.toByteArray();
         }
+
+		@Override
+		public State onTrailingHeadersReceived(HttpHeaders headers) throws Exception {
+	        return State.CONTINUE;
+	    }
     }
 
     /**
