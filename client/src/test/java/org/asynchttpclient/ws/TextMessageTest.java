@@ -51,26 +51,18 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 
@@ -127,26 +119,18 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 
@@ -181,26 +165,18 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 
@@ -242,20 +218,14 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 
@@ -297,20 +267,14 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).addWebSocketListener(new WebSocketListener() {
 
@@ -337,20 +301,14 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 
@@ -394,20 +352,14 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 
@@ -446,20 +398,14 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 
@@ -503,20 +449,14 @@ public class TextMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build()).get();
 

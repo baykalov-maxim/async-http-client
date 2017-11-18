@@ -1158,7 +1158,31 @@ public class DefaultAsyncHttpClientConfig implements AsyncHttpClientConfig {
         }
 
         public DefaultAsyncHttpClientConfig build() {
+        	
+        	final List<RequestFilter> rq;
+			if (requestFilters.isEmpty())
+				rq = Collections.emptyList();
+			else
+				rq = Collections.unmodifiableList(requestFilters);
+			
+            final List<ResponseFilter> r;
+			if (responseFilters.isEmpty())
+				r = Collections.emptyList();
+			else
+				r = Collections.unmodifiableList(responseFilters);
+            
+            final List<IOExceptionFilter> i;
+			if (ioExceptionFilters.isEmpty())
+				i = Collections.emptyList();
+			else
+				i = Collections.unmodifiableList(ioExceptionFilters);
 
+			final Map<ChannelOption<Object>, Object> c;
+			if (channelOptions.isEmpty())
+				c = Collections.emptyMap();
+			else
+				c = Collections.unmodifiableMap(channelOptions);
+			
             return new DefaultAsyncHttpClientConfig(//
                     followRedirect, //
                     maxRedirects, //
@@ -1197,9 +1221,9 @@ public class DefaultAsyncHttpClientConfig implements AsyncHttpClientConfig {
                     sslSessionTimeout, //
                     sslContext, //
                     sslEngineFactory, //
-                    requestFilters.isEmpty() ? Collections.emptyList() : Collections.unmodifiableList(requestFilters), //
-                    responseFilters.isEmpty() ? Collections.emptyList() : Collections.unmodifiableList(responseFilters),//
-                    ioExceptionFilters.isEmpty() ? Collections.emptyList() : Collections.unmodifiableList(ioExceptionFilters),//
+                    rq, //
+                    r,//
+                    i,//
                     tcpNoDelay, //
                     soReuseAddress, //
                     soLinger, //
@@ -1213,7 +1237,7 @@ public class DefaultAsyncHttpClientConfig implements AsyncHttpClientConfig {
                     chunkedFileChunkSize, //
                     webSocketMaxBufferSize, //
                     webSocketMaxFrameSize, //
-                    channelOptions.isEmpty() ? Collections.emptyMap() : Collections.unmodifiableMap(channelOptions),//
+                    c,//
                     eventLoopGroup, //
                     useNativeTransport, //
                     allocator, //

@@ -43,11 +43,16 @@ import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLEngine;
@@ -439,15 +444,33 @@ public class ChannelManager {
     }
 
     public ClientStats getClientStats() {
-        Map<String, Long> totalConnectionsPerHost = openChannels.stream().map(Channel::remoteAddress).filter(a -> a.getClass() == InetSocketAddress.class)
-                .map(a -> (InetSocketAddress) a).map(InetSocketAddress::getHostName).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    	        
+        Map<String, Long> totalConnectionsPerHost = new HashMap<>();
+        List<String> hostNames = new ArrayList<>();
+        for (Channel c : openChannels) {
+        	if (c.remoteAddress().getClass() == InetSocketAddress.class)
+        		hostNames.add(((InetSocketAddress) c.remoteAddress()).getHostName());
+        }
+        for (String h : hostNames) {
+        	if (!totalConnectionsPerHost.containsKey(h)) {
+        		totalConnectionsPerHost.put(h, 1L);
+        	} else {
+        		totalConnectionsPerHost.put(h, totalConnectionsPerHost.get(h)+1);
+        	}
+        }
+     
         Map<String, Long> idleConnectionsPerHost = channelPool.getIdleChannelCountPerHost();
-        Map<String, HostStats> statsPerHost = totalConnectionsPerHost.entrySet().stream().collect(Collectors.toMap(Entry::getKey, entry -> {
-            final long totalConnectionCount = entry.getValue();
-            final long idleConnectionCount = idleConnectionsPerHost.getOrDefault(entry.getKey(), 0L);
+        
+        Map<String, HostStats> statsPerHost = new HashMap<>();
+        for (Entry<String, Long> e : totalConnectionsPerHost.entrySet()) {
+        	final long totalConnectionCount = e.getValue();
+            final long idleConnectionCount = idleConnectionsPerHost.getOrDefault(e.getKey(), 0L);
             final long activeConnectionCount = totalConnectionCount - idleConnectionCount;
-            return new HostStats(activeConnectionCount, idleConnectionCount);
-        }));
+        	HostStats h = new HostStats(activeConnectionCount, idleConnectionCount);
+        	
+        	statsPerHost.put(e.getKey(), h);
+        }
+
         return new ClientStats(statsPerHost);
     }
 

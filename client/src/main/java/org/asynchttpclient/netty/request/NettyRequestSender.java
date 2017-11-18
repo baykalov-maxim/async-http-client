@@ -302,21 +302,28 @@ public final class NettyRequestSender {
             return future;
         }
 
-        resolveAddresses(request, proxy, future, asyncHandler)//
-                .addListener(new SimpleFutureListener<List<InetSocketAddress>>() {
+        Future<List<InetSocketAddress>> futureAdress = resolveAddresses(request, proxy, future, asyncHandler);
+        
+        final NettyResponseFuture<T> f = future;
+        final Bootstrap b = bootstrap;
+        final Request r = request;
+        final AsyncHandler<T> a = asyncHandler;
+        final Object p = partitionKey;
+        
+        futureAdress.addListener(new SimpleFutureListener<List<InetSocketAddress>>() {
 
                     @Override
                     protected void onSuccess(List<InetSocketAddress> addresses) {
-                        NettyConnectListener<T> connectListener = new NettyConnectListener<>(future, NettyRequestSender.this, channelManager, connectionSemaphore, partitionKey);
-                        NettyChannelConnector connector = new NettyChannelConnector(request.getLocalAddress(), addresses, asyncHandler, clientState, config);
-                        if (!future.isDone()) {
-                            connector.connect(bootstrap, connectListener);
+                        NettyConnectListener<T> connectListener = new NettyConnectListener<>(f, NettyRequestSender.this, channelManager, connectionSemaphore, p);
+                        NettyChannelConnector connector = new NettyChannelConnector(r.getLocalAddress(), addresses, a, clientState, config);
+                        if (!f.isDone()) {
+                            connector.connect(b, connectListener);
                         }
                     }
 
                     @Override
                     protected void onFailure(Throwable cause) {
-                        abort(null, future, getCause(cause));
+                        abort(null, f, getCause(cause));
                     }
                 });
 
@@ -602,10 +609,12 @@ public final class NettyRequestSender {
     }
 
     public void drainChannelAndExecuteNextRequest(final Channel channel, final NettyResponseFuture<?> future, Request nextRequest) {
-        Channels.setAttribute(channel, new OnLastHttpContentCallback(future) {
+    	final Request n = nextRequest;
+    	final NettyResponseFuture<?> f = future;
+        Channels.setAttribute(channel, new OnLastHttpContentCallback(future) {        	
             @Override
             public void call() {
-                sendNextRequest(nextRequest, future);
+                sendNextRequest(n, f);
             }
         });
     }

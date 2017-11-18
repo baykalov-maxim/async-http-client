@@ -229,26 +229,18 @@ public class CloseCodeReasonMessageTest extends AbstractBasicWebSocketTest {
 
 				@Override
 				public void onBinaryFrame(byte[] payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onTextFrame(String payload, boolean finalFragment, int rsv) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPingFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onPongFrame(byte[] payload) {
-					// TODO Auto-generated method stub
-					
 				}
             }).build());
 

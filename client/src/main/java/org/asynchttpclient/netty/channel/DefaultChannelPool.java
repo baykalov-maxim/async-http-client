@@ -17,7 +17,9 @@ import static org.asynchttpclient.util.Assertions.assertNotNull;
 import static org.asynchttpclient.util.DateUtils.unpreciseMillisTime;
 
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
@@ -377,15 +379,25 @@ public final class DefaultChannelPool implements ChannelPool {
 
     @Override
     public Map<String, Long> getIdleChannelCountPerHost() {
-        return partitions
-                .values()
-                .stream()
-                .flatMap(ConcurrentLinkedDeque::stream)
-                .map(idle -> idle.getChannel().remoteAddress())
-                .filter(a -> a.getClass() == InetSocketAddress.class)
-                .map(a -> (InetSocketAddress) a)
-                .map(InetSocketAddress::getHostName)
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    	
+    	Map<String, Long> idleChannelCountPerHost = new HashMap<>();
+    	List<String> hostNames = new ArrayList<>();
+    	
+    	for (Entry<Object, ConcurrentLinkedDeque<IdleChannel>> e : partitions.entrySet()) {
+    		for (IdleChannel i : e.getValue()) {
+    			if (i.getChannel().remoteAddress().getClass() == InetSocketAddress.class)
+    				hostNames.add(((InetSocketAddress) i.getChannel().remoteAddress()).getHostName());
+    		}
+    	}
+
+    	for (String h : hostNames) {
+        	if (!idleChannelCountPerHost.containsKey(h)) {
+        		idleChannelCountPerHost.put(h, 1L);
+        	} else {
+        		idleChannelCountPerHost.put(h, idleChannelCountPerHost.get(h)+1);
+        	}
+        }
+		return idleChannelCountPerHost;
     }
 
     public enum PoolLeaseStrategy {

@@ -54,7 +54,7 @@ public class NettyWebSocket implements WebSocket {
     protected FragmentedFrameType expectedFragmentedFrameType;
 
     public NettyWebSocket(Channel channel, HttpHeaders upgradeHeaders) {
-        this(channel, upgradeHeaders, new ConcurrentLinkedQueue<>());
+        this(channel, upgradeHeaders, new ConcurrentLinkedQueue<WebSocketListener>());
     }
 
     public NettyWebSocket(Channel channel, HttpHeaders upgradeHeaders, Collection<WebSocketListener> listeners) {
