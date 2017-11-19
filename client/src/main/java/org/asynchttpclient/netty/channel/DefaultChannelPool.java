@@ -17,7 +17,6 @@ import static org.asynchttpclient.util.Assertions.assertNotNull;
 import static org.asynchttpclient.util.DateUtils.unpreciseMillisTime;
 
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,7 +26,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.asynchttpclient.AsyncHttpClientConfig;
 import org.asynchttpclient.channel.ChannelPool;
@@ -286,6 +284,7 @@ public final class DefaultChannelPool implements ChannelPool {
 					return new ConcurrentLinkedDeque<>();
 				}
 			});
+//        	partition = new ConcurrentLinkedDeque<>();
         }
         return partition.offerFirst(new IdleChannel(channel, now));
     }

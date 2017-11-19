@@ -51,9 +51,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLEngine;
 import javax.net.ssl.SSLException;
@@ -464,7 +461,8 @@ public class ChannelManager {
         Map<String, HostStats> statsPerHost = new HashMap<>();
         for (Entry<String, Long> e : totalConnectionsPerHost.entrySet()) {
         	final long totalConnectionCount = e.getValue();
-            final long idleConnectionCount = idleConnectionsPerHost.getOrDefault(e.getKey(), 0L);
+        	//final long idleConnectionCount = idleConnectionsPerHost.getOrDefault(e.getKey(), 0L);
+            final long idleConnectionCount = (idleConnectionsPerHost.get(e.getKey()) != null) ? idleConnectionsPerHost.get(e.getKey()) : 0L;
             final long activeConnectionCount = totalConnectionCount - idleConnectionCount;
         	HostStats h = new HostStats(activeConnectionCount, idleConnectionCount);
         	
