@@ -15,8 +15,8 @@ package org.asynchttpclient;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.function.ToLongFunction;
 
 /**
  * A record class representing the state of an (@link org.asynchttpclient.AsyncHttpClient).
@@ -42,51 +42,33 @@ public class ClientStats {
      * a long representing the total number of connections in the connection pool.
      */
     public long getTotalConnectionCount() {
-        return statsPerHost
-                .values()
-                .stream()
-                //.mapToLong(HostStats::getHostConnectionCount)
-                .mapToLong(new ToLongFunction<HostStats>() {
-					@Override
-					public long applyAsLong(HostStats hS) {
-						return hS.getHostConnectionCount();
-					}
-				})
-                .sum();
+        long total = 0;
+        for (Entry<String, HostStats> e : statsPerHost.entrySet()) {
+        	total += e.getValue().getHostConnectionCount(); 
+        }
+        return total;     
     }
 
     /**
      * @return A long representing the number of active connections in the connection pool.
      */
     public long getTotalActiveConnectionCount() {
-        return statsPerHost
-                .values()
-                .stream()
-                //.mapToLong(HostStats::getHostActiveConnectionCount)
-                .mapToLong(new ToLongFunction<HostStats>() {
-					@Override
-					public long applyAsLong(HostStats hS) {
-						return hS.getHostActiveConnectionCount();
-					}
-				})
-                .sum();
+    	long total = 0;
+        for (Entry<String, HostStats> e : statsPerHost.entrySet()) {
+        	total += e.getValue().getHostActiveConnectionCount();
+        }
+        return total;
     }
 
     /**
      * @return A long representing the number of idle connections in the connection pool.
      */
     public long getTotalIdleConnectionCount() {
-        return statsPerHost
-                .values()
-                .stream()
-                //.mapToLong(HostStats::getHostActiveConnectionCount)
-                .mapToLong(new ToLongFunction<HostStats>() {
-					@Override
-					public long applyAsLong(HostStats hS) {
-						return hS.getHostIdleConnectionCount();
-					}
-				})
-                .sum();
+    	long total = 0;
+        for (Entry<String, HostStats> e : statsPerHost.entrySet()) {
+        	total += e.getValue().getHostIdleConnectionCount(); 
+        }
+        return total;
     }
 
     @Override

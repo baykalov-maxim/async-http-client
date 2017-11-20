@@ -278,21 +278,17 @@ public final class DefaultChannelPool implements ChannelPool {
     private boolean offer0(Channel channel, Object partitionKey, long now) {
         ConcurrentLinkedDeque<IdleChannel> partition = partitions.get(partitionKey);
         if (partition == null) {
-            partition = partitions.computeIfAbsent(partitionKey, new Function<Object, ConcurrentLinkedDeque<IdleChannel>>() {
-				@Override
-				public ConcurrentLinkedDeque<IdleChannel> apply(Object pk) {
-					return new ConcurrentLinkedDeque<>();
-				}
-			});
-//        	partition = new ConcurrentLinkedDeque<>();
+        	partition = new ConcurrentLinkedDeque<>();
+        	partitions.put(partitionKey, partition);
         }
+        
         return partition.offerFirst(new IdleChannel(channel, now));
     }
 
     private void registerChannelCreation(Channel channel, Object partitionKey, long now) {
         ChannelId id = channel.id();
         if (!channelId2Creation.containsKey(id)) {
-            channelId2Creation.putIfAbsent(id, new ChannelCreation(now, partitionKey));
+            channelId2Creation.put(id, new ChannelCreation(now, partitionKey));
         }
     }
 

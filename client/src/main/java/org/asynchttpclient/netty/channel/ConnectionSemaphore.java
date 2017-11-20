@@ -17,7 +17,6 @@ import static org.asynchttpclient.util.ThrowableUtil.unknownStackTrace;
 
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 import org.asynchttpclient.AsyncHttpClientConfig;
 import org.asynchttpclient.exception.TooManyConnectionsException;
@@ -58,14 +57,13 @@ public class ConnectionSemaphore {
     }
 
     private NonBlockingSemaphoreLike getFreeConnectionsForHost(Object partitionKey) {
-        return maxConnectionsPerHost > 0 ?
-                freeChannelsPerHost.computeIfAbsent(partitionKey, new Function<Object, NonBlockingSemaphore>() {
-					@Override
-					public NonBlockingSemaphore apply(Object pk) {
-						return new NonBlockingSemaphore(maxConnectionsPerHost);
-					}
-				}) :
-                NonBlockingSemaphoreInfinite.INSTANCE;
+    	if (maxConnectionsPerHost > 0) {
+    		if (!freeChannelsPerHost.containsKey(partitionKey)) {
+    			return new NonBlockingSemaphore(maxConnectionsPerHost);
+    		} 
+    	}
+    	
+    	return NonBlockingSemaphoreInfinite.INSTANCE;				
     }
 
     private boolean tryAcquirePerHost(Object partitionKey) {
