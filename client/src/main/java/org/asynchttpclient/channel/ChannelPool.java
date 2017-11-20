@@ -14,7 +14,6 @@
 package org.asynchttpclient.channel;
 
 import java.util.Map;
-import java.util.function.Predicate;
 
 import io.netty.channel.Channel;
 
@@ -61,14 +60,9 @@ public interface ChannelPool {
     void destroy();
 
     /**
-     * Flush partitions based on a predicate
-     * 
-     * @param predicate the predicate
-     */
-    void flushPartitions(Predicate<Object> predicate);
-
-    /**
      * @return The number of idle channels per host.
      */
     Map<String, Long> getIdleChannelCountPerHost();
+
+	void flushPartitions(java.added.Predicate<Object> predicate);
 }

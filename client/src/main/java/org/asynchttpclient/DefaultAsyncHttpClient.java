@@ -21,8 +21,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timer;
 
+import java.added.Predicate;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Predicate;
 
 import org.asynchttpclient.channel.ChannelPool;
 import org.asynchttpclient.filter.FilterContext;

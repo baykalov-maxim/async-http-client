@@ -15,9 +15,9 @@ package org.asynchttpclient.channel;
 
 import io.netty.channel.Channel;
 
+import java.added.Predicate;
 import java.util.Collections;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public enum NoopChannelPool implements ChannelPool {
 

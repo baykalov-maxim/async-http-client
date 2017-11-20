@@ -36,7 +36,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
+import java.util.Map.Entry;
 
 import org.asynchttpclient.channel.ChannelPoolPartitioning;
 import org.asynchttpclient.proxy.ProxyServer;
@@ -275,12 +275,16 @@ public abstract class RequestBuilderBase<T extends RequestBuilderBase<T>> {
     public T setHeaders(Map<CharSequence, ? extends Iterable<?>> headers) {
         clearHeaders();
         if (headers != null) {
-            headers.forEach(new BiConsumer<CharSequence, Iterable>() {
-				@Override
-				public void accept(CharSequence name, Iterable values) {
-					RequestBuilderBase.this.headers.add(name, values);
-				}
-			});
+//            headers.forEach(new BiConsumer<CharSequence, Iterable>() {
+//				@Override
+//				public void accept(CharSequence name, Iterable values) {
+//					RequestBuilderBase.this.headers.add(name, values);
+//				}
+//			});
+
+            for (Entry<CharSequence, ? extends Iterable<?>> h : headers.entrySet()) {
+            	RequestBuilderBase.this.headers.add(h.getKey(), h.getValue());
+            }
         }
         return asDerivedType();
     }
@@ -295,12 +299,16 @@ public abstract class RequestBuilderBase<T extends RequestBuilderBase<T>> {
     public T setSingleHeaders(Map<CharSequence, ?> headers) {
         clearHeaders();
         if (headers != null) {
-            headers.forEach(new BiConsumer<CharSequence, Object>() {
-				@Override
-				public void accept(CharSequence name, Object value) {
-					RequestBuilderBase.this.headers.add(name, value);
-				}
-			});
+//            headers.forEach(new BiConsumer<CharSequence, Object>() {
+//				@Override
+//				public void accept(CharSequence name, Object value) {
+//					RequestBuilderBase.this.headers.add(name, value);
+//				}
+//			});
+        	
+        	for (Entry<CharSequence, ?> h : headers.entrySet()) {
+            	RequestBuilderBase.this.headers.add(h.getKey(), h.getValue());
+            }
         }
         return asDerivedType();
     }

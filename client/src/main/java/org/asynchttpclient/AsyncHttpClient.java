@@ -18,7 +18,6 @@ package org.asynchttpclient;
 
 import java.io.Closeable;
 import java.util.concurrent.Future;
-import java.util.function.Predicate;
 
 /**
  * This class support asynchronous and synchronous HTTP request.
@@ -276,15 +275,10 @@ public interface AsyncHttpClient extends Closeable {
     ClientStats getClientStats();
 
     /**
-     * Flush ChannelPool partitions based on a predicate
-     * 
-     * @param predicate the predicate
-     */
-    void flushChannelPoolPartitions(Predicate<Object> predicate);
-
-    /**
      * Return the config associated to this client.
      * @return the config associated to this client.
      */
     AsyncHttpClientConfig getConfig();
+
+	void flushChannelPoolPartitions(java.added.Predicate<Object> predicate);
 }
