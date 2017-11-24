@@ -16,9 +16,9 @@ package org.asynchttpclient.netty;
 import static org.asynchttpclient.util.DateUtils.unpreciseMillisTime;
 import io.netty.channel.Channel;
 
+import java.added.CompletableFuture;
 import java.io.IOException;
 import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -317,7 +317,7 @@ public final class NettyResponseFuture<V> implements ListenableFuture<V> {
     	return this;
     }
 
-    @Override
+
     public CompletableFuture<V> toCompletableFuture() {
         return future;
     }

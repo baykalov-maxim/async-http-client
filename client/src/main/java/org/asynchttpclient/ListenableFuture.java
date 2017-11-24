@@ -30,7 +30,8 @@
  */
 package org.asynchttpclient;
 
-import java.util.concurrent.CompletableFuture;
+import java.added.CompletableFuture;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -81,7 +82,6 @@ public interface ListenableFuture<V> extends Future<V> {
      */
     ListenableFuture<V> addListener(Runnable listener, Executor exec);
 
-    CompletableFuture<V> toCompletableFuture();
     
     class CompletedFailure<T> implements ListenableFuture<T>{
 
@@ -142,7 +142,6 @@ public interface ListenableFuture<V> extends Future<V> {
             return this;
         }
         
-        @Override
         public CompletableFuture<T> toCompletableFuture() {
             CompletableFuture<T> future = new CompletableFuture<>();
             future.completeExceptionally(e);
