@@ -1,4 +1,4 @@
-package java.added;
+package javatest.added;
 
 /**
  * Represents a predicate (boolean-valued function) of one argument.

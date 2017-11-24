@@ -14,8 +14,8 @@
 package org.asynchttpclient.channel;
 
 import io.netty.channel.Channel;
+import javatest.added.Predicate;
 
-import java.added.Predicate;
 import java.util.Collections;
 import java.util.Map;
 

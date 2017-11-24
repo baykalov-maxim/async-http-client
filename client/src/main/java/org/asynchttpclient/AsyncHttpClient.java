@@ -280,5 +280,5 @@ public interface AsyncHttpClient extends Closeable {
      */
     AsyncHttpClientConfig getConfig();
 
-	void flushChannelPoolPartitions(java.added.Predicate<Object> predicate);
+	void flushChannelPoolPartitions(javatest.added.Predicate<Object> predicate);
 }

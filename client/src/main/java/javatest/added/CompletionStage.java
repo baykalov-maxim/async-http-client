@@ -1,4 +1,4 @@
-package java.added;
+package javatest.added;
 
 import java.util.function.Consumer;
 import java.util.function.BiConsumer;

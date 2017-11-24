@@ -33,7 +33,7 @@
  * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
-package java.added;
+package javatest.added;
 
 /**
  * Exception thrown when an error or other exception is encountered

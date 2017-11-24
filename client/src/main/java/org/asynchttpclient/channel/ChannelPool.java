@@ -64,5 +64,5 @@ public interface ChannelPool {
      */
     Map<String, Long> getIdleChannelCountPerHost();
 
-	void flushPartitions(java.added.Predicate<Object> predicate);
+	void flushPartitions(javatest.added.Predicate<Object> predicate);
 }

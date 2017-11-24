@@ -31,7 +31,7 @@ public class ClientStatsTest extends AbstractBasicTest {
 
     private final static String hostname = "localhost";
 
-    //@Test(groups = "standalone")
+    @Test(groups = "standalone")
     public void testClientStatus() throws Throwable {
         try (final AsyncHttpClient client = asyncHttpClient(config().setKeepAlive(true).setPooledConnectionIdleTimeout(5000))) {
             final String url = getTargetUrl();
@@ -59,7 +59,7 @@ public class ClientStatsTest extends AbstractBasicTest {
             assertEquals(activeStats.getTotalConnectionCount(), 5);
             assertEquals(activeStats.getStatsPerHost().get(hostname).getHostConnectionCount(), 5);
 
-            //futures.forEach(future -> future.toCompletableFuture().join());
+            futures.forEach(future -> future.toCompletableFuture().join());
 
             Thread.sleep(1000);
 
@@ -88,7 +88,7 @@ public class ClientStatsTest extends AbstractBasicTest {
             assertEquals(activeCachedStats.getTotalConnectionCount(), 5);
             assertEquals(activeCachedStats.getStatsPerHost().get(hostname).getHostConnectionCount(), 5);
 
-            //repeatedFutures.forEach(future -> future.toCompletableFuture().join());
+            repeatedFutures.forEach(future -> future.toCompletableFuture().join());
 
             Thread.sleep(1000);
 
@@ -112,7 +112,7 @@ public class ClientStatsTest extends AbstractBasicTest {
         }
     }
 
-    //@Test(groups = "standalone")
+    @Test(groups = "standalone")
     public void testClientStatusNoKeepalive() throws Throwable {
         try (final AsyncHttpClient client = asyncHttpClient(config().setKeepAlive(false))) {
             final String url = getTargetUrl();
@@ -140,7 +140,7 @@ public class ClientStatsTest extends AbstractBasicTest {
             assertEquals(activeStats.getTotalConnectionCount(), 5);
             assertEquals(activeStats.getStatsPerHost().get(hostname).getHostConnectionCount(), 5);
 
-            //futures.forEach(future -> future.toCompletableFuture().join());
+            futures.forEach(future -> future.toCompletableFuture().join());
 
             Thread.sleep(1000);
 
@@ -169,7 +169,7 @@ public class ClientStatsTest extends AbstractBasicTest {
             assertEquals(activeCachedStats.getTotalConnectionCount(), 3);
             assertEquals(activeCachedStats.getStatsPerHost().get(hostname).getHostConnectionCount(), 3);
 
-            //repeatedFutures.forEach(future -> future.toCompletableFuture().join());
+            repeatedFutures.forEach(future -> future.toCompletableFuture().join());
 
             Thread.sleep(1000);
 

@@ -1,5 +1,8 @@
-package java.added;
+package javatest.added;
 import java.util.function.Supplier;
+
+import sun.misc.Unsafe;
+
 import java.util.function.Consumer;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -10,6 +13,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
+import java.lang.reflect.Field;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
@@ -2338,7 +2342,7 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
     static {
         try {
             final sun.misc.Unsafe u;
-            UNSAFE = u = sun.misc.Unsafe.getUnsafe();
+            UNSAFE = u = getUnsafe(); //sun.misc.Unsafe.getUnsafe();
             Class<?> k = CompletableFuture.class;
             RESULT = u.objectFieldOffset(k.getDeclaredField("result"));
             STACK = u.objectFieldOffset(k.getDeclaredField("stack"));
@@ -2347,5 +2351,21 @@ public class CompletableFuture<T> implements Future<T>, CompletionStage<T> {
         } catch (Exception x) {
             throw new Error(x);
         }
+    }
+    
+    @SuppressWarnings("restriction")
+    private static Unsafe getUnsafe() {
+        try {
+
+            Field singleoneInstanceField = Unsafe.class.getDeclaredField("theUnsafe");
+            singleoneInstanceField.setAccessible(true);
+            return (Unsafe) singleoneInstanceField.get(null);
+
+        } catch (IllegalArgumentException e) {
+        } catch (SecurityException e) {
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalAccessException e) {
+        }
+		return null;
     }
 }

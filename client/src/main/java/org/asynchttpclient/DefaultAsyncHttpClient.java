@@ -20,8 +20,8 @@ import static org.asynchttpclient.util.Assertions.assertNotNull;
 import io.netty.channel.EventLoopGroup;
 import io.netty.util.HashedWheelTimer;
 import io.netty.util.Timer;
+import javatest.added.Predicate;
 
-import java.added.Predicate;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.asynchttpclient.channel.ChannelPool;

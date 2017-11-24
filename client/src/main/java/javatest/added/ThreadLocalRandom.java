@@ -1,6 +1,7 @@
-package java.added;
+package javatest.added;
 
 import java.io.ObjectStreamField;
+import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,6 +13,8 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
+
+import sun.misc.Unsafe;
 
 /**
  * A random number generator isolated to the current thread.  Like the
@@ -1022,7 +1025,7 @@ public class ThreadLocalRandom extends Random {
     private static final long SECONDARY;
     static {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
+            UNSAFE = getUnsafe(); //sun.misc.Unsafe.getUnsafe();
             Class<?> tk = Thread.class;
             SEED = UNSAFE.objectFieldOffset
                 (tk.getDeclaredField("threadLocalRandomSeed"));
@@ -1033,5 +1036,21 @@ public class ThreadLocalRandom extends Random {
         } catch (Exception e) {
             throw new Error(e);
         }
+    }
+    
+    @SuppressWarnings("restriction")
+    private static Unsafe getUnsafe() {
+        try {
+
+            Field singleoneInstanceField = Unsafe.class.getDeclaredField("theUnsafe");
+            singleoneInstanceField.setAccessible(true);
+            return (Unsafe) singleoneInstanceField.get(null);
+
+        } catch (IllegalArgumentException e) {
+        } catch (SecurityException e) {
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalAccessException e) {
+        }
+		return null;
     }
 }

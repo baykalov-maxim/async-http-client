@@ -30,13 +30,14 @@
  */
 package org.asynchttpclient;
 
-import java.added.CompletableFuture;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
+import javatest.added.CompletableFuture;
 
 /**
  * Extended {@link Future}
@@ -80,8 +81,9 @@ public interface ListenableFuture<V> extends Future<V> {
      * @param exec     the executor to run the listener in.
      * @return this Future
      */
-    ListenableFuture<V> addListener(Runnable listener, Executor exec);
+    public ListenableFuture<V> addListener(Runnable listener, Executor exec);
 
+    public CompletableFuture<V> toCompletableFuture();
     
     class CompletedFailure<T> implements ListenableFuture<T>{
 
@@ -142,10 +144,107 @@ public interface ListenableFuture<V> extends Future<V> {
             return this;
         }
         
+        @Override
         public CompletableFuture<T> toCompletableFuture() {
             CompletableFuture<T> future = new CompletableFuture<>();
             future.completeExceptionally(e);
             return future;
         }
+
+		@Override
+		public boolean isSuccess() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean isCancellable() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public Throwable cause() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> addListener(GenericFutureListener<? extends Future<? super T>> listener) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> addListeners(GenericFutureListener<? extends Future<? super T>>... listeners) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> removeListener(GenericFutureListener<? extends Future<? super T>> listener) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> removeListeners(GenericFutureListener<? extends Future<? super T>>... listeners) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> sync() throws InterruptedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> syncUninterruptibly() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> await() throws InterruptedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Future<T> awaitUninterruptibly() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean await(long timeout, TimeUnit unit) throws InterruptedException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean await(long timeoutMillis) throws InterruptedException {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean awaitUninterruptibly(long timeout, TimeUnit unit) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean awaitUninterruptibly(long timeoutMillis) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public T getNow() {
+			// TODO Auto-generated method stub
+			return null;
+		}
     }
 }
