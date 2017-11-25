@@ -1038,8 +1038,8 @@ public class ThreadLocalRandom extends Random {
         }
     }
     
-    @SuppressWarnings("restriction")
-    private static Unsafe getUnsafe() {
+
+    static Unsafe getUnsafe() {
         try {
 
             Field singleoneInstanceField = Unsafe.class.getDeclaredField("theUnsafe");
