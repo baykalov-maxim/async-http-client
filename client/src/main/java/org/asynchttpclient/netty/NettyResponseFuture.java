@@ -17,6 +17,7 @@ import static org.asynchttpclient.util.DateUtils.unpreciseMillisTime;
 import io.netty.channel.Channel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import io.reactivex.functions.BiConsumer;
 import javatest.added.CompletableFuture;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
-import java.util.function.BiConsumer;
+//import java.util.function.BiConsumer;
 
 import org.asynchttpclient.AsyncHandler;
 import org.asynchttpclient.ListenableFuture;
